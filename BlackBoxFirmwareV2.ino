@@ -5,7 +5,7 @@
 
 #include <NeoSWSerial.h>
 //#include <SoftwareSerial.h>
-NeoSWSerial mySerial( 3, 2 );  // Change this to NeoSWSerial!
+NeoSWSerial mySerial( 3, 2 );
 
 #define LOG_INTERVAL  1000 //millis between entries
 
@@ -13,14 +13,6 @@ NeoSWSerial mySerial( 3, 2 );  // Change this to NeoSWSerial!
 #define GREENLED 6
 #define CHIPSELECT 10
 #define SWITCHIN 5
-
-//onboard LEDs
-//const int redLED = 7;
-//const int greenLED = 6;
-
-//switch for inputs
-//const int switchIn = 5;
-//const int chipSelect = 10;
 
 //------------------------------------
 //  NeoGPS section
@@ -33,14 +25,10 @@ static void GPSloop( uint8_t c )
 {
   if (gps.decode( c ) == NMEAGPS::DECODE_COMPLETED) {
 
-    // All enabled sentence types will be merged into one fix.
-    //   This 'fused' data can be safely used anywhere in your program.
 
     fused |= gps.fix();
   }
 } // GPSloop
-
-//------------------------------------
 
 RTC_DS1307       RTC;  //real time clock on the GPS unit
 Adafruit_MMA8451 mma = Adafruit_MMA8451();  //Accelerometer
@@ -49,7 +37,7 @@ Adafruit_MMA8451 mma = Adafruit_MMA8451();  //Accelerometer
 uint32_t logMillis = 0;
 uint32_t greenOn;
 uint32_t redOn;
-enum state_t { WAITING_TO_LOG, GREEN_ON, BOTH_OFF }; // the FSM states
+enum state_t { WAITING_TO_LOG, GREEN_ON, BOTH_OFF };
 state_t state = WAITING_TO_LOG;
 bool logfileOpen = false;
 
@@ -129,26 +117,9 @@ void setup() {
   }
 }
 
-  /*
-  SIGNAL(TIMER0_COMPA_vect) {
-  if(mySerial.available()) {
-    GPSloop(mySerial.read());
-  }
-  }
-
-  void useInterrupt() {
-  OCR0A = 0xAF;
-  TIMSK0 |= _BV(OCIE0A);
-  }
-//  */
 
 void loop()
 {
-  // This goes away when you switch to the interrupt-driven version
-  //while (mySerial.available())
-  //  GPSloop( mySerial.read() );
-
-  //  No delays, just a Finite-state Machine like "blink without delay"
 
   if (!digitalRead(SWITCHIN)) {
     File logfile = newLog();
