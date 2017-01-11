@@ -41,9 +41,9 @@ static void GPSloop( uint8_t c )
 } // GPSloop
 
 //------------------------------------
-// Declare stuff
-RTC_DS1307       RTC;
-Adafruit_MMA8451 mma = Adafruit_MMA8451();
+
+RTC_DS1307       RTC;  //real time clock on the GPS unit
+Adafruit_MMA8451 mma = Adafruit_MMA8451();  //Accelerometer
 
 // Data variables
 uint32_t logMillis = 0;
